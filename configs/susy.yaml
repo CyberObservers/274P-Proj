@@ -1,0 +1,42 @@
+name: susy
+url: https://archive.ics.uci.edu/static/public/279/susy.zip
+raw_path: data/raw/SUSY.csv.gz
+processed_dir: data/processed/susy
+task: binary_classification
+n_total: 5000000
+n_samples: 1000000
+test_split: 500000
+val_split: 0.05
+target_col: 0
+n_features: 18
+n_low: 8
+n_high: 10
+feature_names:
+  # cols 1..8 (low-level)
+  - lepton_1_pT
+  - lepton_1_eta
+  - lepton_1_phi
+  - lepton_2_pT
+  - lepton_2_eta
+  - lepton_2_phi
+  - missing_energy_magnitude
+  - missing_energy_phi
+  # cols 9..18 (high-level)
+  - MET_rel
+  - axial_MET
+  - M_R
+  - M_TR_2
+  - R
+  - MT2
+  - S_R
+  - M_Delta_R
+  - dPhi_r_b
+  - cos_theta_r1
+training:
+  batch_size: 1024
+  epochs: 50
+  lr: 1.0e-3
+  weight_decay: 1.0e-5
+  warmup_epochs: 2
+  amp: true
+  early_stop_patience: 8

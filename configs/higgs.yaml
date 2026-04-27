@@ -1,0 +1,52 @@
+name: higgs
+url: https://archive.ics.uci.edu/static/public/280/higgs.zip
+raw_path: data/raw/HIGGS.csv.gz
+processed_dir: data/processed/higgs
+task: binary_classification
+n_total: 11000000
+n_samples: 1000000
+test_split: 500000   # Baldi 2014 holdout
+val_split: 0.05
+target_col: 0        # first column = label
+n_features: 28
+n_low: 21            # cols 1..21
+n_high: 7            # cols 22..28
+feature_names:
+  # cols 1..21 (low-level)
+  - lepton_pT
+  - lepton_eta
+  - lepton_phi
+  - missing_energy_magnitude
+  - missing_energy_phi
+  - jet_1_pt
+  - jet_1_eta
+  - jet_1_phi
+  - jet_1_b_tag
+  - jet_2_pt
+  - jet_2_eta
+  - jet_2_phi
+  - jet_2_b_tag
+  - jet_3_pt
+  - jet_3_eta
+  - jet_3_phi
+  - jet_3_b_tag
+  - jet_4_pt
+  - jet_4_eta
+  - jet_4_phi
+  - jet_4_b_tag
+  # cols 22..28 (high-level)
+  - m_jj
+  - m_jjj
+  - m_lv
+  - m_jlv
+  - m_bb
+  - m_wbb
+  - m_wwbb
+training:
+  batch_size: 1024
+  epochs: 50
+  lr: 1.0e-3
+  weight_decay: 1.0e-5
+  warmup_epochs: 2
+  amp: true
+  early_stop_patience: 8

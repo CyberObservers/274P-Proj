@@ -1,0 +1,22 @@
+name: forest_cover
+url: https://archive.ics.uci.edu/static/public/31/covertype.zip
+raw_path: data/raw/covtype.data.gz
+processed_dir: data/processed/forest_cover
+task: multiclass_classification
+n_classes: 7
+n_total: 581012
+n_samples: 581012
+test_split: 0.2
+val_split: 0.1
+target_col: -1   # last column = label (1..7)
+n_features: 54
+n_low: 0
+n_high: 0
+training:
+  batch_size: 512
+  epochs: 80
+  lr: 1.0e-3
+  weight_decay: 1.0e-5
+  warmup_epochs: 2
+  amp: true
+  early_stop_patience: 10

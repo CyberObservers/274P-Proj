@@ -1,0 +1,33 @@
+# data
+data/raw/
+data/processed/
+data/*.csv
+data/*.gz
+data/*.parquet
+data/*.h5
+
+# results / logs
+results/**/*.csv
+results/**/*.json
+results/**/*.png
+results/**/*.pdf
+logs/
+runs/
+wandb/
+*.ckpt
+*.pt
+*.pth
+
+# python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+.venv/
+
+# editor
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,23 @@
+name: hepmass
+url_train: https://archive.ics.uci.edu/static/public/347/hepmass.zip
+raw_path: data/raw/HEPMASS_train.csv.gz
+raw_path_test: data/raw/HEPMASS_test.csv.gz
+processed_dir: data/processed/hepmass
+task: binary_classification
+n_total: 10500000
+n_samples: 500000
+test_split: 100000
+val_split: 0.05
+target_col: 0
+# 27 features + mass, treated as parameterized input. Layout follows Baldi 2016.
+n_features: 28
+n_low: 0
+n_high: 0
+training:
+  batch_size: 1024
+  epochs: 40
+  lr: 1.0e-3
+  weight_decay: 1.0e-5
+  warmup_epochs: 2
+  amp: true
+  early_stop_patience: 8
