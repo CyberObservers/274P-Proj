@@ -1,0 +1,19 @@
+# Retry: PIFT SUSY all-features (failed in main queue before group spec was registered)
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 0
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 1
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 2
+
+# Learning curve, GPU 1: HIGGS low-level PIFT at 5 sizes × 3 seeds = 15 runs
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --max-train 10000  --tag n10000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --max-train 10000  --tag n10000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --max-train 10000  --tag n10000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --max-train 50000  --tag n50000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --max-train 50000  --tag n50000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --max-train 50000  --tag n50000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --max-train 100000 --tag n100000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --max-train 100000 --tag n100000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --max-train 100000 --tag n100000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --max-train 500000 --tag n500000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --max-train 500000 --tag n500000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --max-train 500000 --tag n500000
+# n=1M PIFT re-uses main runs (already in queue_gpu1)

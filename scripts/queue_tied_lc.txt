@@ -1,0 +1,13 @@
+# Tied PIFT learning curve on HIGGS low-level — does smaller-param tied recover data efficiency?
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --max-train 10000  --tag tied_n10000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --max-train 10000  --tag tied_n10000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --max-train 10000  --tag tied_n10000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --max-train 50000  --tag tied_n50000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --max-train 50000  --tag tied_n50000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --max-train 50000  --tag tied_n50000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --max-train 100000 --tag tied_n100000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --max-train 100000 --tag tied_n100000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --max-train 100000 --tag tied_n100000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --max-train 500000 --tag tied_n500000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --max-train 500000 --tag tied_n500000
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --max-train 500000 --tag tied_n500000

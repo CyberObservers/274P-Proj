@@ -1,0 +1,72 @@
+# GPU 0: HIGGS baselines (all 3 setups × 4 models × 3 seeds = 36) + HEPMASS (12) + Forest (12) = 60 runs
+# Priority head: HIGGS low-level FT-T seed 0 (Baldi 2014 reference point) + XGBoost low-level seed 0
+
+# === HIGGS low-level — Stage 1 priority ===
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup low_level --seed 0
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup low_level --seed 0
+python -m src.train --config configs/higgs.yaml --model mlp             --setup low_level --seed 0
+python -m src.train --config configs/higgs.yaml --model resnet          --setup low_level --seed 0
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup low_level --seed 1
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup low_level --seed 2
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup low_level --seed 1
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup low_level --seed 2
+python -m src.train --config configs/higgs.yaml --model mlp             --setup low_level --seed 1
+python -m src.train --config configs/higgs.yaml --model mlp             --setup low_level --seed 2
+python -m src.train --config configs/higgs.yaml --model resnet          --setup low_level --seed 1
+python -m src.train --config configs/higgs.yaml --model resnet          --setup low_level --seed 2
+
+# === HIGGS high-level ===
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup high_level --seed 0
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup high_level --seed 1
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup high_level --seed 2
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup high_level --seed 0
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup high_level --seed 1
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup high_level --seed 2
+python -m src.train --config configs/higgs.yaml --model mlp             --setup high_level --seed 0
+python -m src.train --config configs/higgs.yaml --model mlp             --setup high_level --seed 1
+python -m src.train --config configs/higgs.yaml --model mlp             --setup high_level --seed 2
+python -m src.train --config configs/higgs.yaml --model resnet          --setup high_level --seed 0
+python -m src.train --config configs/higgs.yaml --model resnet          --setup high_level --seed 1
+python -m src.train --config configs/higgs.yaml --model resnet          --setup high_level --seed 2
+
+# === HIGGS all features ===
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup all --seed 0
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup all --seed 1
+python -m src.train --config configs/higgs.yaml --model ft_transformer --setup all --seed 2
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup all --seed 0
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup all --seed 1
+python -m src.train --config configs/higgs.yaml --model xgboost        --setup all --seed 2
+python -m src.train --config configs/higgs.yaml --model mlp             --setup all --seed 0
+python -m src.train --config configs/higgs.yaml --model mlp             --setup all --seed 1
+python -m src.train --config configs/higgs.yaml --model mlp             --setup all --seed 2
+python -m src.train --config configs/higgs.yaml --model resnet          --setup all --seed 0
+python -m src.train --config configs/higgs.yaml --model resnet          --setup all --seed 1
+python -m src.train --config configs/higgs.yaml --model resnet          --setup all --seed 2
+
+# === HEPMASS all features ===
+python -m src.train --config configs/hepmass.yaml --model ft_transformer --setup all --seed 0
+python -m src.train --config configs/hepmass.yaml --model ft_transformer --setup all --seed 1
+python -m src.train --config configs/hepmass.yaml --model ft_transformer --setup all --seed 2
+python -m src.train --config configs/hepmass.yaml --model xgboost        --setup all --seed 0
+python -m src.train --config configs/hepmass.yaml --model xgboost        --setup all --seed 1
+python -m src.train --config configs/hepmass.yaml --model xgboost        --setup all --seed 2
+python -m src.train --config configs/hepmass.yaml --model mlp             --setup all --seed 0
+python -m src.train --config configs/hepmass.yaml --model mlp             --setup all --seed 1
+python -m src.train --config configs/hepmass.yaml --model mlp             --setup all --seed 2
+python -m src.train --config configs/hepmass.yaml --model resnet          --setup all --seed 0
+python -m src.train --config configs/hepmass.yaml --model resnet          --setup all --seed 1
+python -m src.train --config configs/hepmass.yaml --model resnet          --setup all --seed 2
+
+# === Forest Cover (control) ===
+python -m src.train --config configs/forest_cover.yaml --model ft_transformer --setup all --seed 0
+python -m src.train --config configs/forest_cover.yaml --model ft_transformer --setup all --seed 1
+python -m src.train --config configs/forest_cover.yaml --model ft_transformer --setup all --seed 2
+python -m src.train --config configs/forest_cover.yaml --model xgboost        --setup all --seed 0
+python -m src.train --config configs/forest_cover.yaml --model xgboost        --setup all --seed 1
+python -m src.train --config configs/forest_cover.yaml --model xgboost        --setup all --seed 2
+python -m src.train --config configs/forest_cover.yaml --model mlp             --setup all --seed 0
+python -m src.train --config configs/forest_cover.yaml --model mlp             --setup all --seed 1
+python -m src.train --config configs/forest_cover.yaml --model mlp             --setup all --seed 2
+python -m src.train --config configs/forest_cover.yaml --model resnet          --setup all --seed 0
+python -m src.train --config configs/forest_cover.yaml --model resnet          --setup all --seed 1
+python -m src.train --config configs/forest_cover.yaml --model resnet          --setup all --seed 2

@@ -11,6 +11,8 @@ results/**/*.csv
 results/**/*.json
 results/**/*.png
 results/**/*.pdf
+results/**/*.npy
+results/failed.txt
 logs/
 runs/
 wandb/

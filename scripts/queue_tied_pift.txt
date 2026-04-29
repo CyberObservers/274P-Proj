@@ -1,0 +1,17 @@
+# Optimization A: weight-tied PhysicsGroupEmbedding
+# HIGGS low-level (headline)
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --tag tied
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --tag tied
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --tag tied
+# HIGGS all (engineered is single type, so tying mostly helps jets)
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 0 --tag tied
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 1 --tag tied
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 2 --tag tied
+# SUSY low-level (lepton1/lepton2 share type 0)
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 0 --tag tied
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 1 --tag tied
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 2 --tag tied
+# SUSY all
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 0 --tag tied
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 1 --tag tied
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 2 --tag tied

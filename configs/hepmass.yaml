@@ -1,7 +1,7 @@
 name: hepmass
-url_train: https://archive.ics.uci.edu/static/public/347/hepmass.zip
-raw_path: data/raw/HEPMASS_train.csv.gz
-raw_path_test: data/raw/HEPMASS_test.csv.gz
+# from UCI 347 hepmass.zip we use 1000_train.csv.gz / 1000_test.csv.gz
+raw_path:      data/raw/1000_train.csv.gz
+raw_path_test: data/raw/1000_test.csv.gz
 processed_dir: data/processed/hepmass
 task: binary_classification
 n_total: 10500000
@@ -9,8 +9,8 @@ n_samples: 500000
 test_split: 100000
 val_split: 0.05
 target_col: 0
-# 27 features + mass, treated as parameterized input. Layout follows Baldi 2016.
-n_features: 28
+# 1000_train: label + 27 features (28 cols). 1000_test has +1 mass col we drop.
+n_features: 27
 n_low: 0
 n_high: 0
 training:

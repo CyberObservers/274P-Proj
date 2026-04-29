@@ -1,0 +1,25 @@
+# PIFT v4 — GPU 1 queue: PIFT variants on Top Tagging
+# 13 runs total (12 PIFT + 1 HIGGS sanity seed 2)
+
+# === PIFT-Subjet (= v2 group emb on subjet input) × 3 seeds ===
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 0 --tag v4_subjet
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 1 --tag v4_subjet
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 2 --tag v4_subjet
+
+# === PIFT-Edge (subjet input + edge tokens) × 3 seeds ===
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 0 --pift-edge --tag v4_edge
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 1 --pift-edge --tag v4_edge
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 2 --pift-edge --tag v4_edge
+
+# === PIFT-Subjet+Edge combo × 3 seeds (no edge_k limit since 8*7/2=28 small) ===
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 0 --pift-edge --edge-k 28 --tag v4_subjet_edge
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 1 --pift-edge --edge-k 28 --tag v4_subjet_edge
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 2 --pift-edge --edge-k 28 --tag v4_subjet_edge
+
+# === PIFT v3 (NSI) on Top Tagging × 3 seeds (sanity check NSI on subjet input) ===
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 0 --pift-nsi --tag v4_nsi
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 1 --pift-nsi --tag v4_nsi
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 2 --pift-nsi --tag v4_nsi
+
+# === HIGGS sanity check seed 2 ===
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-edge --tag v4_edge

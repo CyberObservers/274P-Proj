@@ -1,0 +1,27 @@
+# PIFT v3 — GPU 0 queue
+# Main: HIGGS low (3 seeds) + HIGGS all (3 seeds) + lambda ablation HIGGS low (9 runs)
+# = 15 runs total
+
+# === Main: HIGGS low_level (K=16, lambda=0.5) ===
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-nsi --tag v3
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-nsi --tag v3
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-nsi --tag v3
+
+# === Main: HIGGS all (K=16, lambda=0.5) ===
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 0 --pift-nsi --tag v3
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 1 --pift-nsi --tag v3
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 2 --pift-nsi --tag v3
+
+# === Ablation: lambda_inv sweep on HIGGS low (K=16) ===
+# lambda = 0 (no boost regularizer — paper-critical control)
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-nsi --nsi-no-boost-reg --tag v3_lam0
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-nsi --nsi-no-boost-reg --tag v3_lam0
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-nsi --nsi-no-boost-reg --tag v3_lam0
+# lambda = 0.1
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-nsi --nsi-lambda-inv 0.1 --tag v3_lam0.1
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-nsi --nsi-lambda-inv 0.1 --tag v3_lam0.1
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-nsi --nsi-lambda-inv 0.1 --tag v3_lam0.1
+# lambda = 1.0
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-nsi --nsi-lambda-inv 1.0 --tag v3_lam1.0
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-nsi --nsi-lambda-inv 1.0 --tag v3_lam1.0
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-nsi --nsi-lambda-inv 1.0 --tag v3_lam1.0

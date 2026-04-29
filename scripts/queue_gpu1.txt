@@ -1,0 +1,78 @@
+# GPU 1: PIFT HIGGS+SUSY (12) + SUSY baselines (36) + Adult baselines (12) = 60 runs
+# Priority head: PIFT HIGGS low-level seed 0 (headline target: AUC >= 0.87)
+
+# === PIFT HIGGS low-level (HEADLINE) ===
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2
+
+# === PIFT HIGGS all-features ===
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 0
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 1
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 2
+
+# === PIFT SUSY low-level ===
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 0
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 1
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 2
+
+# === PIFT SUSY all-features ===
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 0
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 1
+python -m src.train --config configs/susy.yaml --model pift --setup all --seed 2
+
+# === SUSY low-level baselines ===
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup low_level --seed 0
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup low_level --seed 1
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup low_level --seed 2
+python -m src.train --config configs/susy.yaml --model xgboost        --setup low_level --seed 0
+python -m src.train --config configs/susy.yaml --model xgboost        --setup low_level --seed 1
+python -m src.train --config configs/susy.yaml --model xgboost        --setup low_level --seed 2
+python -m src.train --config configs/susy.yaml --model mlp             --setup low_level --seed 0
+python -m src.train --config configs/susy.yaml --model mlp             --setup low_level --seed 1
+python -m src.train --config configs/susy.yaml --model mlp             --setup low_level --seed 2
+python -m src.train --config configs/susy.yaml --model resnet          --setup low_level --seed 0
+python -m src.train --config configs/susy.yaml --model resnet          --setup low_level --seed 1
+python -m src.train --config configs/susy.yaml --model resnet          --setup low_level --seed 2
+
+# === SUSY high-level baselines ===
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup high_level --seed 0
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup high_level --seed 1
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup high_level --seed 2
+python -m src.train --config configs/susy.yaml --model xgboost        --setup high_level --seed 0
+python -m src.train --config configs/susy.yaml --model xgboost        --setup high_level --seed 1
+python -m src.train --config configs/susy.yaml --model xgboost        --setup high_level --seed 2
+python -m src.train --config configs/susy.yaml --model mlp             --setup high_level --seed 0
+python -m src.train --config configs/susy.yaml --model mlp             --setup high_level --seed 1
+python -m src.train --config configs/susy.yaml --model mlp             --setup high_level --seed 2
+python -m src.train --config configs/susy.yaml --model resnet          --setup high_level --seed 0
+python -m src.train --config configs/susy.yaml --model resnet          --setup high_level --seed 1
+python -m src.train --config configs/susy.yaml --model resnet          --setup high_level --seed 2
+
+# === SUSY all-features baselines ===
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup all --seed 0
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup all --seed 1
+python -m src.train --config configs/susy.yaml --model ft_transformer --setup all --seed 2
+python -m src.train --config configs/susy.yaml --model xgboost        --setup all --seed 0
+python -m src.train --config configs/susy.yaml --model xgboost        --setup all --seed 1
+python -m src.train --config configs/susy.yaml --model xgboost        --setup all --seed 2
+python -m src.train --config configs/susy.yaml --model mlp             --setup all --seed 0
+python -m src.train --config configs/susy.yaml --model mlp             --setup all --seed 1
+python -m src.train --config configs/susy.yaml --model mlp             --setup all --seed 2
+python -m src.train --config configs/susy.yaml --model resnet          --setup all --seed 0
+python -m src.train --config configs/susy.yaml --model resnet          --setup all --seed 1
+python -m src.train --config configs/susy.yaml --model resnet          --setup all --seed 2
+
+# === Adult (control, small dataset) ===
+python -m src.train --config configs/adult.yaml --model ft_transformer --setup all --seed 0
+python -m src.train --config configs/adult.yaml --model ft_transformer --setup all --seed 1
+python -m src.train --config configs/adult.yaml --model ft_transformer --setup all --seed 2
+python -m src.train --config configs/adult.yaml --model xgboost        --setup all --seed 0
+python -m src.train --config configs/adult.yaml --model xgboost        --setup all --seed 1
+python -m src.train --config configs/adult.yaml --model xgboost        --setup all --seed 2
+python -m src.train --config configs/adult.yaml --model mlp             --setup all --seed 0
+python -m src.train --config configs/adult.yaml --model mlp             --setup all --seed 1
+python -m src.train --config configs/adult.yaml --model mlp             --setup all --seed 2
+python -m src.train --config configs/adult.yaml --model resnet          --setup all --seed 0
+python -m src.train --config configs/adult.yaml --model resnet          --setup all --seed 1
+python -m src.train --config configs/adult.yaml --model resnet          --setup all --seed 2

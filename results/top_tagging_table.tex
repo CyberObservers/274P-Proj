@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Top Quark Tagging Reference Dataset (Kasieczka 2019, 1.2M jets, binary top vs QCD).  All PIFT variants use anti-kT pre-tokenization to K=8 subjets (kinematic\_kind=`subjet').  Mean$\pm$std over 3 seeds.  Best in \textbf{bold}, second-best \underline{underlined}.}
+\label{tab:top_tagging}
+\footnotesize
+\begin{tabular}{l c}
+\toprule
+Method & Test AUC \\
+\midrule
+XGBoost & 0.9683{\tiny$\pm$0.0000} \\
+MLP & 0.9683{\tiny$\pm$0.0000} \\
+ResNet & 0.9691{\tiny$\pm$0.0000} \\
+FT-Transformer & 0.9703{\tiny$\pm$0.0001} \\
+\midrule
+PIFT-Subjet (v2 group emb on subjets) & 0.9709{\tiny$\pm$0.0007} \\
+PIFT-NSI (v3) on subjets & 0.9720{\tiny$\pm$0.0004} \\
+\textbf{PIFT-Edge (NEW)} & \underline{0.9828{\tiny$\pm$0.0005}} \\
+\textbf{PIFT-Subjet+Edge (NEW combo)} & \textbf{0.9828{\tiny$\pm$0.0005}} \\
+\bottomrule
+\end{tabular}
+\end{table}

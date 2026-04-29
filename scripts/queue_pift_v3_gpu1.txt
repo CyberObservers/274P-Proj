@@ -1,0 +1,22 @@
+# PIFT v3 — GPU 1 queue
+# Main: SUSY low (3 seeds) + K ablation HIGGS low (9 runs)
+# = 12 runs total
+
+# === Main: SUSY low_level (K=16, lambda=0.5) ===
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 0 --pift-nsi --tag v3
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 1 --pift-nsi --tag v3
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 2 --pift-nsi --tag v3
+
+# === Ablation: K sweep on HIGGS low (lambda=0.5) ===
+# K = 4
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-nsi --nsi-k 4 --tag v3_K4
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-nsi --nsi-k 4 --tag v3_K4
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-nsi --nsi-k 4 --tag v3_K4
+# K = 8
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-nsi --nsi-k 8 --tag v3_K8
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-nsi --nsi-k 8 --tag v3_K8
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-nsi --nsi-k 8 --tag v3_K8
+# K = 32
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-nsi --nsi-k 32 --tag v3_K32
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-nsi --nsi-k 32 --tag v3_K32
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-nsi --nsi-k 32 --tag v3_K32

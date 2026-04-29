@@ -28,6 +28,12 @@ fetch "https://archive.ics.uci.edu/static/public/31/covertype.zip"     "data/raw
 fetch "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data" "data/raw/adult.data"
 fetch "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test" "data/raw/adult.test"
 
+# Top Quark Tagging Reference (Kasieczka 2019, ~1.7GB total) — for v4 PIFT-Edge / PIFT-Subjet
+mkdir -p data/raw/top_tagging
+fetch "https://zenodo.org/records/2603256/files/train.h5" "data/raw/top_tagging/train.h5"
+fetch "https://zenodo.org/records/2603256/files/test.h5"  "data/raw/top_tagging/test.h5"
+fetch "https://zenodo.org/records/2603256/files/val.h5"   "data/raw/top_tagging/val.h5"
+
 echo "[unzip] expanding archives"
 cd data/raw
 for f in higgs.zip susy.zip hepmass.zip covertype.zip; do

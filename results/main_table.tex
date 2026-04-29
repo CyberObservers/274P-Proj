@@ -1,0 +1,28 @@
+\begin{table*}[t]
+\centering
+\caption{Test AUC / accuracy on HEP and control tabular benchmarks (mean$\pm$std over 3 seeds).
+HIGGS / SUSY admit three input \emph{setups} of increasing engineering: low-level raw kinematics, high-level
+Lorentz invariants, or all features.  Best per column in \textbf{bold}, second-best \underline{underlined};
+PIFT$^\dagger$ is the v1 untied baseline, kept for ablation.}
+\label{tab:main}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l ccc ccc c c c}
+\toprule
+& \multicolumn{3}{c}{\textbf{HIGGS} (1M, AUC)}& \multicolumn{3}{c}{\textbf{SUSY} (1M, AUC)}& \textbf{HEPMASS} & \textbf{Forest} & \textbf{Adult} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-8}\cmidrule(lr){9-9}\cmidrule(lr){10-10}
+Method & low (21) & high (7) & all (28) & low (8) & high (10) & all (18) & all (27) & all (54) & all (14) \\
+& AUC & AUC & AUC & AUC & AUC & AUC & AUC & Acc & AUC \\
+\midrule
+XGBoost & 0.7542{\tiny$\pm$0.0007} & 0.7919{\tiny$\pm$0.0000} & 0.8345{\tiny$\pm$0.0001} & 0.8712{\tiny$\pm$0.0001} & 0.8652{\tiny$\pm$0.0000} & 0.8755{\tiny$\pm$0.0001} & 0.9722{\tiny$\pm$0.0000} & 0.9375{\tiny$\pm$0.0013} & \textbf{0.9214{\tiny$\pm$0.0004}} \\
+MLP & 0.8070{\tiny$\pm$0.0020} & \underline{0.7978{\tiny$\pm$0.0001}} & 0.8502{\tiny$\pm$0.0001} & 0.8736{\tiny$\pm$0.0002} & \underline{0.8678{\tiny$\pm$0.0003}} & 0.8767{\tiny$\pm$0.0000} & 0.9731{\tiny$\pm$0.0001} & 0.9532{\tiny$\pm$0.0005} & 0.9021{\tiny$\pm$0.0003} \\
+ResNet & 0.8248{\tiny$\pm$0.0027} & \textbf{0.7983{\tiny$\pm$0.0000}} & 0.8563{\tiny$\pm$0.0002} & \underline{0.8745{\tiny$\pm$0.0001}} & \textbf{0.8685{\tiny$\pm$0.0000}} & \textbf{0.8778{\tiny$\pm$0.0000}} & \underline{0.9743{\tiny$\pm$0.0001}} & \underline{0.9623{\tiny$\pm$0.0001}} & 0.9058{\tiny$\pm$0.0002} \\
+FT-Transformer & 0.7823{\tiny$\pm$0.0006} & 0.7974{\tiny$\pm$0.0001} & 0.8522{\tiny$\pm$0.0008} & \textbf{0.8746{\tiny$\pm$0.0000}} & 0.8678{\tiny$\pm$0.0000} & \underline{0.8773{\tiny$\pm$0.0008}} & \textbf{0.9747{\tiny$\pm$0.0001}} & \textbf{0.9696{\tiny$\pm$0.0005}} & \underline{0.9099{\tiny$\pm$0.0018}} \\
+\midrule
+PIFT$^\dagger$ (untied, v1) & \underline{0.8673{\tiny$\pm$0.0041}} & — & 0.8582{\tiny$\pm$0.0006} & 0.8737{\tiny$\pm$0.0000} & — & 0.8771{\tiny$\pm$0.0004} & — & — & — \\
+PIFT (v2, tied) & \textbf{0.8678{\tiny$\pm$0.0016}} & — & \textbf{0.8710{\tiny$\pm$0.0002}} & 0.8682{\tiny$\pm$0.0001} & — & 0.8767{\tiny$\pm$0.0003} & — & — & — \\
+PIFT$_{\text{set-pool}}$ & 0.8314{\tiny$\pm$0.0016} & — & — & 0.8686{\tiny$\pm$0.0001} & — & — & — & — & — \\
+\textbf{PIFT-v3 (ours, NSI)} & 0.8653{\tiny$\pm$0.0005} & — & \underline{0.8689{\tiny$\pm$0.0016}} & 0.8736{\tiny$\pm$0.0000} & — & — & — & — & — \\
+\bottomrule
+\end{tabular}
+\end{table*}

@@ -1,0 +1,9 @@
+# Optimization D: SetPooledGroupEmbedding
+# HIGGS low-level (headline)
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-set-pool --tag setpool
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-set-pool --tag setpool
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-set-pool --tag setpool
+# SUSY low-level
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 0 --pift-set-pool --tag setpool
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 1 --pift-set-pool --tag setpool
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 2 --pift-set-pool --tag setpool

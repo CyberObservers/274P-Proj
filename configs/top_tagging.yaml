@@ -1,0 +1,21 @@
+name: top_tagging
+raw_path_train: data/raw/top_tagging/train.h5
+raw_path_test:  data/raw/top_tagging/test.h5
+processed_dir:  data/processed/top_tagging
+task: binary_classification
+
+# subjet preprocess: 8 subjets * 8 features = 64 features per jet, label appended
+n_subjets: 8
+n_features: 64
+target_col: -1                # label is the last column
+
+val_split: 0.05
+
+training:
+  batch_size: 512              # tokens > HIGGS, lower bs to stay safe
+  epochs: 30
+  lr: 1.0e-3
+  weight_decay: 1.0e-5
+  warmup_epochs: 2
+  amp: true
+  early_stop_patience: 6

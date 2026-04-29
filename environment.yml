@@ -25,3 +25,7 @@ dependencies:
       - einops
       - tensorboard
       - wandb
+      - pytest
+      # PIFT v3 NSI dependencies
+      - git+https://github.com/Blealtan/efficient-kan.git
+      - pykan

@@ -1,0 +1,20 @@
+# PIFT v4 — GPU 0 queue: Top Tagging baselines + PIFT-Edge variants + HIGGS sanity
+# 14 runs total
+
+# === Top Tagging baselines (4 methods × 3 seeds = 12) ===
+python -m src.train --config configs/top_tagging.yaml --model xgboost   --setup all --seed 0
+python -m src.train --config configs/top_tagging.yaml --model xgboost   --setup all --seed 1
+python -m src.train --config configs/top_tagging.yaml --model xgboost   --setup all --seed 2
+python -m src.train --config configs/top_tagging.yaml --model mlp       --setup all --seed 0
+python -m src.train --config configs/top_tagging.yaml --model mlp       --setup all --seed 1
+python -m src.train --config configs/top_tagging.yaml --model mlp       --setup all --seed 2
+python -m src.train --config configs/top_tagging.yaml --model resnet    --setup all --seed 0
+python -m src.train --config configs/top_tagging.yaml --model resnet    --setup all --seed 1
+python -m src.train --config configs/top_tagging.yaml --model resnet    --setup all --seed 2
+python -m src.train --config configs/top_tagging.yaml --model ft_transformer --setup all --seed 0
+python -m src.train --config configs/top_tagging.yaml --model ft_transformer --setup all --seed 1
+python -m src.train --config configs/top_tagging.yaml --model ft_transformer --setup all --seed 2
+
+# === HIGGS sanity check: PIFT-Edge × 3 seeds (verify event-level not regress) ===
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-edge --tag v4_edge
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-edge --tag v4_edge

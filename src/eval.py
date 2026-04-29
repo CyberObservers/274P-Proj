@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -19,14 +20,18 @@ def main() -> None:
     args = p.parse_args()
 
     rows = []
+    pat = re.compile(r"^(?P<model>[^_]+(?:_[^_]+)*)__(?P<setup>[^_]+(?:_[^_]+)*)__seed(?P<seed>\d+)(?:_(?P<tag>.+))?$")
     for f in Path(args.root).rglob("metrics.json"):
         with open(f) as fh:
             r = json.load(fh)
+        m = pat.match(f.parent.name)
+        tag = m.group("tag") if m else ""
         flat = {
             "dataset": f.parent.parent.name,
             "model": r.get("model"),
             "setup": r.get("setup"),
             "seed": r.get("seed"),
+            "tag": tag or "",
             "params_M": r.get("params_M"),
             "best_val": r.get("best_val"),
             "best_epoch": r.get("best_epoch"),
