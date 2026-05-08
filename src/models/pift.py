@@ -169,10 +169,14 @@ class PIFT(nn.Module):
         use_nsi: bool = False,
         nsi_K: int = 16,
         nsi_kan_hidden: tuple = (32,),
+        nsi_kan_impl: str = "efficient",
         feature_dim: int | None = None,
         use_edge_tokens: bool = False,
         edge_k: int = 32,
         edge_select: str = "kt",
+        edge_kan: str = "none",
+        use_tabm: bool = False,
+        tabm_k: int = 32,
     ):
         super().__init__()
         self.spec = spec
@@ -193,6 +197,7 @@ class PIFT(nn.Module):
         if use_nsi:
             self.nsi = NeuralSymbolicInvariantExtractor(
                 spec, K=nsi_K, kan_hidden=nsi_kan_hidden, feature_dim=feature_dim,
+                kan_impl=nsi_kan_impl,
             )
             self.nsi_proj = nn.Sequential(
                 nn.LayerNorm(nsi_K),
@@ -204,6 +209,7 @@ class PIFT(nn.Module):
         if use_edge_tokens:
             self.edge_tokenizer = EdgeTokenizer(
                 d_token=d_token, edge_k=edge_k, edge_select=edge_select,
+                mlp_impl=("cheby" if edge_kan == "cheby" else "mlp"),
             )
             # scaler stats for edge p4 reconstruction (mirrors NSI mechanism)
             F = feature_dim if feature_dim is not None else max(
@@ -226,6 +232,19 @@ class PIFT(nn.Module):
         self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=n_blocks)
         self.norm = nn.LayerNorm(d_token)
         self.head = nn.Linear(d_token, d_out)
+
+        # PIFT v5: optional TabM-light — BatchEnsemble at input proj + head only.
+        # Encoder is shared (LayerNorm × BatchEnsemble caveat per TabM paper §B.5).
+        self.use_tabm = use_tabm
+        self.tabm_k = tabm_k
+        if use_tabm:
+            from tabm import LinearBatchEnsemble
+            self.tabm_input_proj = LinearBatchEnsemble(
+                d_token, d_token, k=tabm_k, scaling_init="random-signs",
+            )
+            self.tabm_head = LinearBatchEnsemble(
+                d_token, d_out, k=tabm_k, scaling_init="random-signs",
+            )
 
     def set_edge_scaler_stats(self, mean: torch.Tensor, std: torch.Tensor) -> None:
         """Install StandardScaler stats for edge token p4 reconstruction."""
@@ -270,7 +289,24 @@ class PIFT(nn.Module):
                 edge_toks = self.edge_tokenizer(p4)                  # (B, k_edge, d_token)
             tokens = torch.cat([tokens, edge_toks.to(tokens.dtype)], dim=1)
         cls = self.cls.expand(tokens.size(0), -1, -1)
-        h = torch.cat([cls, tokens], dim=1)
+        h = torch.cat([cls, tokens], dim=1)                          # (B, n_seq, d_token)
+
+        if self.use_tabm:
+            B, n_seq, d = h.shape
+            k = self.tabm_k
+            # Broadcast each sample to k ensemble members → (B, k, n_seq, d).
+            # Apply per-member rank-1 perturbation at the input.
+            h = h.unsqueeze(1).expand(B, k, n_seq, d).contiguous()
+            # LinearBatchEnsemble expects (..., k, d_in); reshape to (B*n_seq, k, d).
+            h_flat = h.permute(0, 2, 1, 3).reshape(B * n_seq, k, d)
+            h_flat = self.tabm_input_proj(h_flat)                    # (B*n_seq, k, d)
+            h = h_flat.reshape(B, n_seq, k, d).permute(0, 2, 1, 3).contiguous()
+            # Encoder is shared: fold k into batch dim.
+            h = self.encoder(h.reshape(B * k, n_seq, d))              # (B*k, n_seq, d)
+            cls_h = self.norm(h[:, 0]).reshape(B, k, d)               # (B, k, d)
+            logits = self.tabm_head(cls_h)                            # (B, k, d_out)
+            return logits.squeeze(-1) if logits.size(-1) == 1 else logits
+
         h = self.encoder(h)
         h = self.norm(h[:, 0])
         return self.head(h)

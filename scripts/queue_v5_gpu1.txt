@@ -1,0 +1,38 @@
+# PIFT v5 — GPU 1 queue: Top Tagging variants (heavy)
+# All runs use --tag v5_<variant>.
+# 18 runs total, ~9h wall clock estimate.
+
+# === Top Tagging: PIFT-Edge + ChebyKAN × 3 seeds ===
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 0 --pift-edge --edge-kan cheby --tag v5_edge_cheby
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 1 --pift-edge --edge-kan cheby --tag v5_edge_cheby
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 2 --pift-edge --edge-kan cheby --tag v5_edge_cheby
+
+# === Top Tagging: PIFT-Edge + TabM × 3 seeds ===
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 0 --pift-edge --use-tabm --tag v5_edge_tabm
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 1 --pift-edge --use-tabm --tag v5_edge_tabm
+python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 2 --pift-edge --use-tabm --tag v5_edge_tabm
+
+# === Top Tagging: PIFT-Edge + ChebyKAN + TabM combo × 3 seeds ===
+# CUT (2026-05-07): TabM at k=32 takes ~4h/Top Tagging run; combo would push GPU1 >38h.
+# Given HIGGS+TabM seed 0 result already shows TabM hurts vs PIFT v2 baseline (-0.026 AUC),
+# combo unlikely to beat plain PIFT-Edge+ChebyKAN (already 0.9832 ± 0.0001).
+# python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 0 --pift-edge --edge-kan cheby --use-tabm --tag v5_edge_cheby_tabm
+# python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 1 --pift-edge --edge-kan cheby --use-tabm --tag v5_edge_cheby_tabm
+# python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 2 --pift-edge --edge-kan cheby --use-tabm --tag v5_edge_cheby_tabm
+
+# === Top Tagging: PIFT-Subjet + TabM × 3 seeds (no edge tokens, just v2+TabM on subjets) ===
+# CUT (2026-05-07): same TabM-physics-tabular negative-result reasoning;
+# subjet input behaves like event-level for TabM purposes.
+# python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 0 --use-tabm --tag v5_subjet_tabm
+# python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 1 --use-tabm --tag v5_subjet_tabm
+# python -m src.train --config configs/top_tagging.yaml --model pift --setup all --seed 2 --use-tabm --tag v5_subjet_tabm
+
+# === Forest Cover: ResNet + TabM × 3 seeds ===
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 2 --use-tabm --tag v5_tabm
+
+# === HIGGS all: PIFT v3 NSI with Fast-KAN × 3 seeds (compare wall-clock vs efficient-kan) ===
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 0 --pift-nsi --kan-impl fast --tag v5_fastkan
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 1 --pift-nsi --kan-impl fast --tag v5_fastkan
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 2 --pift-nsi --kan-impl fast --tag v5_fastkan

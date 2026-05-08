@@ -1,0 +1,9 @@
+# PIFT v5 (Phase 1) extra dependencies — install on top of environment.yml.
+#
+#   conda activate pift
+#   pip install -r requirements_v5.txt
+#
+# fastkan: RBF-based KAN (ZiyaoLi/fast-kan), drop-in for v3 NSI's efficient-kan
+fastkan @ git+https://github.com/ZiyaoLi/fast-kan.git
+# tabm: Yandex parameter-efficient ensemble (BatchEnsemble k=32) — ICLR 2025
+tabm @ git+https://github.com/yandex-research/tabm.git

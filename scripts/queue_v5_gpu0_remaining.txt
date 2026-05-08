@@ -1,0 +1,24 @@
+# PIFT v5 — GPU 0 REMAINING queue (post-trim 2026-05-07)
+# Already done: HIGGS low PIFT v2+TabM × 3 (12.8h), HIGGS low Fast-KAN × 3 (40min)
+# Cut: HIGGS low TabM+FastKAN combo, HIGGS all+TabM, SUSY all+TabM (~31h saved)
+# Remaining: SUSY low+TabM × 3, Adult MLP/ResNet+TabM × 6, Forest Cover MLP+TabM × 3 = 12 runs
+
+# === SUSY low: PIFT v2 + TabM × 3 seeds (target: reverse the negative result) ===
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 2 --use-tabm --tag v5_tabm
+
+# === Adult: MLP + TabM × 3 seeds ===
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 2 --use-tabm --tag v5_tabm
+
+# === Adult: ResNet + TabM × 3 seeds ===
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 2 --use-tabm --tag v5_tabm
+
+# === Forest Cover: MLP + TabM × 3 seeds ===
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 2 --use-tabm --tag v5_tabm

@@ -1,0 +1,57 @@
+\begin{table}[t]
+\centering
+\caption{PIFT v5 (Phase 1) ablation: TabM ensemble × Fast-KAN NSI × ChebyKAN-Edge.  Mean$\pm$std over 3 seeds; n = number of completed seeds.  Baselines from §3, §4, §10 are reproduced for direct comparison.}
+\label{tab:pift_v5}
+\footnotesize
+\begin{tabular}{l c c}
+\toprule
+Variant & Test metric & n \\
+\midrule
+\multicolumn{3}{c}{\emph{HIGGS (low-level, 21 features) — Test AUC}} \\
+\midrule
+PIFT v2 (baseline) & 0.8673{\tiny$\pm$0.0041} & 3 \\
+PIFT v2 + TabM & 0.8405{\tiny$\pm$0.0007} & 3 \\
+PIFT v3 NSI (Fast-KAN) & 0.8676{\tiny$\pm$0.0008} & 3 \\
+PIFT v2 + TabM + Fast-KAN & — & 0 \\
+\midrule
+\multicolumn{3}{c}{\emph{HIGGS (all 28 features) — Test AUC}} \\
+\midrule
+PIFT v2 (baseline, all) & 0.8582{\tiny$\pm$0.0006} & 3 \\
+PIFT v2 + TabM (all) & — & 0 \\
+PIFT v3 NSI Fast-KAN (all) & 0.8711{\tiny$\pm$0.0027} & 3 \\
+\midrule
+\multicolumn{3}{c}{\emph{SUSY (low-level, 8 features) — Test AUC}} \\
+\midrule
+PIFT v2 (baseline) & 0.8737{\tiny$\pm$0.0000} & 3 \\
+PIFT v2 + TabM & 0.8678{\tiny$\pm$0.0000} & 2 \\
+\midrule
+\multicolumn{3}{c}{\emph{SUSY (all 18 features) — Test AUC}} \\
+\midrule
+PIFT v2 (baseline, all) & 0.8771{\tiny$\pm$0.0004} & 3 \\
+PIFT v2 + TabM (all) & — & 0 \\
+\midrule
+\multicolumn{3}{c}{\emph{Top Tagging (Kasieczka 2019, 200-constituent jets) — Test AUC}} \\
+\midrule
+PIFT-Edge (v4 baseline) & 0.9828{\tiny$\pm$0.0005} & 3 \\
+PIFT-Edge + ChebyKAN & 0.9832{\tiny$\pm$0.0000} & 3 \\
+PIFT-Edge + TabM & 0.9833{\tiny$\pm$0.0000} & 3 \\
+PIFT-Edge + ChebyKAN + TabM & — & 0 \\
+PIFT-Subjet (v4 baseline) & 0.9709{\tiny$\pm$0.0007} & 3 \\
+PIFT-Subjet + TabM & — & 0 \\
+\midrule
+\multicolumn{3}{c}{\emph{Adult (non-physics control) — Test AUC}} \\
+\midrule
+XGBoost (baseline) & 0.9214{\tiny$\pm$0.0004} & 3 \\
+FT-Transformer (baseline) & 0.9099{\tiny$\pm$0.0018} & 3 \\
+MLP + TabM & 0.9024{\tiny$\pm$0.0007} & 3 \\
+ResNet + TabM & 0.9057{\tiny$\pm$0.0007} & 3 \\
+\midrule
+\multicolumn{3}{c}{\emph{Forest Cover (non-physics control) — Test Accuracy}} \\
+\midrule
+XGBoost (baseline) & 0.9375{\tiny$\pm$0.0013} & 3 \\
+FT-Transformer (baseline) & 0.9696{\tiny$\pm$0.0005} & 3 \\
+MLP + TabM & 0.9510{\tiny$\pm$0.0002} & 3 \\
+ResNet + TabM & 0.9444{\tiny$\pm$0.0004} & 3 \\
+\bottomrule
+\end{tabular}
+\end{table}

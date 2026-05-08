@@ -1,0 +1,15 @@
+# PIFT v5 — GPU 1 parallel: Adult/Forest MLP+TabM (light, ~30min)
+# Run on GPU 1 in parallel while GPU 0 finishes SUSY seed 2 (~3h).
+# train.py skips on existing metrics.json so GPU 0 dispatcher will safely skip these later.
+
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 2 --use-tabm --tag v5_tabm
+
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 2 --use-tabm --tag v5_tabm
+
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 2 --use-tabm --tag v5_tabm

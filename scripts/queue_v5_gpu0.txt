@@ -1,0 +1,54 @@
+# PIFT v5 — GPU 0 queue: HIGGS / SUSY / Adult / Forest Cover (light tasks)
+# All runs use --tag v5_<variant> to avoid overwriting v2/v3/v4.
+# 27 runs total, ~3-4h wall clock estimate.
+
+# === HIGGS low: PIFT v2 + TabM × 3 seeds ===
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --use-tabm --tag v5_tabm
+
+# === HIGGS low: PIFT v3 NSI with Fast-KAN × 3 seeds ===
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --pift-nsi --kan-impl fast --tag v5_fastkan
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --pift-nsi --kan-impl fast --tag v5_fastkan
+python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --pift-nsi --kan-impl fast --tag v5_fastkan
+
+# === HIGGS low: PIFT v2 + TabM + Fast-KAN NSI combo × 3 seeds ===
+# CUT (2026-05-07): TabM at k=32 takes ~250min/HIGGS run; combo would push >48h budget.
+# After seed 0 v2+TabM result (val AUC ~0.84 vs v2 baseline 0.87) it's clear TabM-light
+# underperforms vanilla v2 on physics-tabular; combo unlikely to recover.
+# python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 0 --use-tabm --pift-nsi --kan-impl fast --tag v5_tabm_fastkan
+# python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 1 --use-tabm --pift-nsi --kan-impl fast --tag v5_tabm_fastkan
+# python -m src.train --config configs/higgs.yaml --model pift --setup low_level --seed 2 --use-tabm --pift-nsi --kan-impl fast --tag v5_tabm_fastkan
+
+# === HIGGS all: PIFT v2 + TabM × 3 seeds ===
+# CUT (2026-05-07): same reason as combo above; HIGGS low+TabM is the headline test.
+# python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 0 --use-tabm --tag v5_tabm
+# python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 1 --use-tabm --tag v5_tabm
+# python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 2 --use-tabm --tag v5_tabm
+
+# === SUSY low: PIFT v2 + TabM × 3 seeds (target: reverse the negative result) ===
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/susy.yaml --model pift --setup low_level --seed 2 --use-tabm --tag v5_tabm
+
+# === SUSY all: PIFT v2 + TabM × 3 seeds ===
+# CUT (2026-05-07): SUSY low+TabM is the negative-result-reversal target;
+# SUSY all is less critical (v2 baseline already ~0.877 there).
+# python -m src.train --config configs/susy.yaml --model pift --setup all --seed 0 --use-tabm --tag v5_tabm
+# python -m src.train --config configs/susy.yaml --model pift --setup all --seed 1 --use-tabm --tag v5_tabm
+# python -m src.train --config configs/susy.yaml --model pift --setup all --seed 2 --use-tabm --tag v5_tabm
+
+# === Adult: MLP + TabM × 3 seeds ===
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model mlp --setup all --seed 2 --use-tabm --tag v5_tabm
+
+# === Adult: ResNet + TabM × 3 seeds ===
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/adult.yaml --model resnet --setup all --seed 2 --use-tabm --tag v5_tabm
+
+# === Forest Cover: MLP + TabM × 3 seeds ===
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model mlp --setup all --seed 2 --use-tabm --tag v5_tabm

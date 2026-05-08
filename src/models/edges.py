@@ -89,15 +89,26 @@ class EdgeTokenizer(nn.Module):
     """
 
     def __init__(self, d_token: int, edge_k: int = 32,
-                 edge_select: str = "kt", hidden_mult: float = 1.0):
+                 edge_select: str = "kt", hidden_mult: float = 1.0,
+                 mlp_impl: str = "mlp"):
         super().__init__()
         self.edge_k = edge_k
         self.edge_select = edge_select
+        self.mlp_impl = mlp_impl
         d_h = max(d_token, int(d_token * hidden_mult))
-        self.mlp = nn.Sequential(
-            nn.Linear(4, d_h), nn.GELU(),
-            nn.Linear(d_h, d_token),
-        )
+        if mlp_impl == "cheby":
+            from src.models.cheby_kan import ChebyEdgeBlock
+            self.mlp = nn.Sequential(
+                ChebyEdgeBlock(4, d_h, degree=4),
+                ChebyEdgeBlock(d_h, d_token, degree=4),
+            )
+        elif mlp_impl == "mlp":
+            self.mlp = nn.Sequential(
+                nn.Linear(4, d_h), nn.GELU(),
+                nn.Linear(d_h, d_token),
+            )
+        else:
+            raise ValueError(f"unknown mlp_impl={mlp_impl!r}, expected mlp/cheby")
 
     def forward(self, p4: torch.Tensor) -> torch.Tensor:
         """p4: (B, N, 4)  ->  edge_tokens: (B, k_keep, d_token)"""

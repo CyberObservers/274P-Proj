@@ -1,0 +1,4 @@
+# PIFT v5 — GPU 1 Forest Cover ResNet+TabM × 3 (re-run after multiclass × TabM fix in train.py)
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 0 --use-tabm --tag v5_tabm --force
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 1 --use-tabm --tag v5_tabm --force
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 2 --use-tabm --tag v5_tabm --force

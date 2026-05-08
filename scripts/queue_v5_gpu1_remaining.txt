@@ -1,0 +1,14 @@
+# PIFT v5 — GPU 1 REMAINING queue (post-trim 2026-05-07)
+# Already done (or running): cheby × 3, edge_tabm × 3 (~17h)
+# Cut: cheby+tabm combo × 3, subjet+tabm × 3 (~25h saved)
+# Remaining: Forest Cover ResNet+TabM × 3, HIGGS all Fast-KAN × 3 = 6 runs
+
+# === Forest Cover: ResNet + TabM × 3 seeds ===
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 0 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 1 --use-tabm --tag v5_tabm
+python -m src.train --config configs/forest_cover.yaml --model resnet --setup all --seed 2 --use-tabm --tag v5_tabm
+
+# === HIGGS all: PIFT v3 NSI with Fast-KAN × 3 seeds ===
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 0 --pift-nsi --kan-impl fast --tag v5_fastkan
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 1 --pift-nsi --kan-impl fast --tag v5_fastkan
+python -m src.train --config configs/higgs.yaml --model pift --setup all --seed 2 --pift-nsi --kan-impl fast --tag v5_fastkan

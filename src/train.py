@@ -74,6 +74,16 @@ def parse_args():
                    help="number of edge tokens kept per event (top-K by selection)")
     p.add_argument("--edge-select", default="kt", choices=["kt", "mass", "all"],
                    help="edge selection score: k_T, mass, or no selection")
+    # PIFT v5: KAN backend selection + ChebyKAN edge + TabM ensemble
+    p.add_argument("--kan-impl", default="efficient",
+                   choices=["efficient", "fast", "cheby"],
+                   help="v5: KAN backend for v3 NSI (default efficient = v3 behaviour)")
+    p.add_argument("--edge-kan", default="none", choices=["none", "cheby"],
+                   help="v5: ChebyKAN tokenizer for v4 PIFT-Edge (default none = MLP)")
+    p.add_argument("--use-tabm", action="store_true",
+                   help="v5: enable TabM-light BatchEnsemble (k members, light variant)")
+    p.add_argument("--tabm-k", type=int, default=32,
+                   help="TabM ensemble size k (default 32 per Yandex paper)")
     return p.parse_args()
 
 
@@ -82,12 +92,14 @@ def parse_args():
 # ---------------------------------------------------------------------------
 def build_model(args, cfg, d_in, d_out):
     name = args.model
+    use_tabm = getattr(args, "use_tabm", False)
+    tabm_k = getattr(args, "tabm_k", 32)
     if name == "mlp":
-        return baselines_mod.build_mlp(d_in, d_out)
+        return baselines_mod.build_mlp(d_in, d_out, use_tabm=use_tabm, tabm_k=tabm_k)
     if name == "resnet":
-        return baselines_mod.build_resnet(d_in, d_out)
+        return baselines_mod.build_resnet(d_in, d_out, use_tabm=use_tabm, tabm_k=tabm_k)
     if name == "ft_transformer":
-        return baselines_mod.build_ft_transformer(d_in, d_out)
+        return baselines_mod.build_ft_transformer(d_in, d_out, use_tabm=use_tabm, tabm_k=tabm_k)
     if name == "pift":
         spec = get_groups(cfg["name"], args.setup)
         if spec is None:
@@ -101,10 +113,14 @@ def build_model(args, cfg, d_in, d_out):
             set_pool=args.pift_set_pool,
             use_nsi=args.pift_nsi,
             nsi_K=args.nsi_k,
+            nsi_kan_impl=args.kan_impl,
             feature_dim=d_in,
             use_edge_tokens=args.pift_edge,
             edge_k=args.edge_k,
             edge_select=args.edge_select,
+            edge_kan=args.edge_kan,
+            use_tabm=use_tabm,
+            tabm_k=tabm_k,
         )
     raise ValueError(name)
 
@@ -219,9 +235,22 @@ def train_dl(args, cfg, X_train, y_train, X_test, y_test, task: str, out_dir: "P
             with torch.amp.autocast("cuda", enabled=use_amp):
                 logits = model(xb).squeeze(-1)
                 if task == "binary_classification":
-                    loss_cls = loss_fn(logits, yb.float())
+                    if logits.dim() == 2:  # TabM: (B, k) — per-member BCE then mean
+                        target = yb.float().unsqueeze(1).expand_as(logits)
+                        loss_cls = loss_fn(logits, target)
+                    else:
+                        loss_cls = loss_fn(logits, yb.float())
                 else:
-                    loss_cls = loss_fn(logits, yb)
+                    # Multiclass. Plain: logits (B, n_classes); TabM: (B, k, n_classes).
+                    if logits.dim() == 3:
+                        B, k, C = logits.shape
+                        # Per-member CE then mean: flatten (B, k, C) -> (B*k, C), tile y
+                        loss_cls = loss_fn(
+                            logits.reshape(B * k, C),
+                            yb.unsqueeze(1).expand(B, k).reshape(B * k),
+                        )
+                    else:
+                        loss_cls = loss_fn(logits, yb)
 
             if use_boost_reg and lam_inv > 0:
                 # boost-invariance regularizer in fp32
@@ -286,8 +315,13 @@ def _evaluate(model, loader, task: str, device) -> dict:
         xb = xb.to(device, non_blocking=True)
         logits = model(xb).squeeze(-1)
         if task == "binary_classification":
-            proba = torch.sigmoid(logits).cpu().numpy()
+            proba = torch.sigmoid(logits)
+            if proba.dim() == 2:  # TabM: (B, k) — average prob across ensemble
+                proba = proba.mean(dim=1)
+            proba = proba.cpu().numpy()
         else:
+            if logits.dim() == 3:  # TabM multiclass: (B, k, n_classes)
+                logits = logits.mean(dim=1)
             proba = F.softmax(logits, dim=-1).cpu().numpy()
         ys.append(yb.numpy()); ps.append(proba)
     return compute_metrics(np.concatenate(ys), np.concatenate(ps), task)
